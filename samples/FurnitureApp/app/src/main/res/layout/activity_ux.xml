@@ -17,11 +17,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HelloSceneformActivity">
 
   <fragment android:name="com.google.ar.sceneform.ux.ArFragment"
       android:id="@+id/ux_fragment"
       android:layout_width="match_parent"
       android:layout_height="match_parent" />
+
+  <LinearLayout
+      android:id="@+id/gallery_layout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/sceneform_fragment"
+      app:layout_constraintVertical_chainStyle="spread"
+      app:layout_constraintVertical_weight="1"
+      ></LinearLayout>
 
 </FrameLayout>

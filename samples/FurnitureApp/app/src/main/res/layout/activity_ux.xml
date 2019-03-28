@@ -1,39 +1,31 @@
-<!--
-   Copyright 2018 Google LLC.
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context="com.google.ar.sceneform.samples.FurnitureApp.HelloSceneformActivity">
 
-      http://www.apache.org/licenses/LICENSE-2.0
+    <fragment
+        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:id="@+id/ux_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/gallery_layout"
+        app:layout_constraintVertical_chainStyle="spread"
+        app:layout_constraintVertical_weight="9"/>
 
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
--->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    android:id="@+id/gallery_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".HelloSceneformActivity">
-
-  <fragment android:name="com.google.ar.sceneform.ux.ArFragment"
-      android:id="@+id/ux_fragment"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent" />
-
-  <LinearLayout
-      android:id="@+id/gallery_layout"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="horizontal"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/sceneform_fragment"
-      app:layout_constraintVertical_chainStyle="spread"
-      app:layout_constraintVertical_weight="1"
-      ></LinearLayout>
-
-</FrameLayout>
+    android:layout_height="0dp"
+    android:orientation="horizontal"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/ux_fragment"
+    app:layout_constraintVertical_chainStyle="spread"
+    app:layout_constraintVertical_weight="1"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    ></LinearLayout>
+</android.support.constraint.ConstraintLayout>

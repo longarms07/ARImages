@@ -26,6 +26,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.HitResult;
@@ -49,7 +53,6 @@ public class HelloSceneformActivity extends AppCompatActivity {
   private ModelRenderable chairRenderable;
   private ModelRenderable sofaRenderable;
   private ModelRenderable currentRenderable;
-  PointerDrawable pointer;
   boolean isTracking;
   boolean isHitting;
 
@@ -109,6 +112,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
       arFragment.setOnTapArPlaneListener(
         (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
           if (currentRenderable == null) {
+              Toast.makeText(getApplicationContext(), "Select a piece of furniture", Toast.LENGTH_LONG).show();
             return;
           }
 
@@ -128,6 +132,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
 //          arFragment.onUpdate(frameTime);
 //          onUpdate();
 //      });
+      initializeGallery();
   }
 
   /**
@@ -158,4 +163,44 @@ public class HelloSceneformActivity extends AppCompatActivity {
     }
     return true;
   }
+
+
+  private void initializeGallery() {
+      LinearLayout gallery = findViewById(R.id.gallery_layout);
+      ImageView lamp = new ImageView(this);
+      lamp.setImageResource(R.drawable.lamp);
+      lamp.setContentDescription("lamp");
+      lamp.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              currentRenderable = lampRenderable;
+              Toast.makeText(getApplicationContext(), "Lamp selected", Toast.LENGTH_LONG).show();
+          }
+      });
+      gallery.addView(lamp);
+      ImageView chair = new ImageView(this);
+      chair.setImageResource(R.drawable.chair);
+      chair.setContentDescription("chair");
+      chair.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              currentRenderable = chairRenderable;
+              Toast.makeText(getApplicationContext(), "Chair selected", Toast.LENGTH_LONG).show();
+          }
+      });
+      gallery.addView(chair);
+      ImageView sofa = new ImageView(this);
+      sofa.setImageResource(R.drawable.sofa);
+      sofa.setContentDescription("sofa");
+      sofa.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              currentRenderable = sofaRenderable;
+              Toast.makeText(getApplicationContext(), "Sofa selected", Toast.LENGTH_LONG).show();
+          }
+      });
+      gallery.addView(sofa);
+  }
+
+
 }

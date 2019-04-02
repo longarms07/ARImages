@@ -52,6 +52,8 @@ public class HelloSceneformActivity extends AppCompatActivity {
   private ModelRenderable lampRenderable;
   private ModelRenderable chairRenderable;
   private ModelRenderable sofaRenderable;
+  private ModelRenderable bookshelfRenderable;
+  private ModelRenderable toiletRenderable;
   private ModelRenderable currentRenderable;
   boolean isTracking;
   boolean isHitting;
@@ -70,44 +72,7 @@ public class HelloSceneformActivity extends AppCompatActivity {
     setContentView(R.layout.activity_ux);
     arFragment = (ArFragment) getSupportFragmentManager().findFragmentById(R.id.ux_fragment);
 
-    // When you build a Renderable, Sceneform loads its resources in the background while returning
-    // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
-      CompletableFuture<Void> unable_to_load_lamp_renderable = ModelRenderable.builder()
-              .setSource(this, Uri.parse("LampPost.sfb"))
-              .build()
-              .thenAccept(renderable -> lampRenderable = renderable)
-              .exceptionally(
-                      throwable -> {
-                          Toast toast =
-                                  Toast.makeText(this, "Unable to load andy renderable", Toast.LENGTH_LONG);
-                          toast.setGravity(Gravity.CENTER, 0, 0);
-                          toast.show();
-                          return null;
-                      });
-      CompletableFuture<Void> unable_to_load_chair_renderable = ModelRenderable.builder()
-              .setSource(this, Uri.parse("model.sfb"))
-              .build()
-              .thenAccept(renderable -> chairRenderable = renderable)
-              .exceptionally(
-                      throwable -> {
-                          Toast toast =
-                                  Toast.makeText(this, "Unable to load andy renderable", Toast.LENGTH_LONG);
-                          toast.setGravity(Gravity.CENTER, 0, 0);
-                          toast.show();
-                          return null;
-                      });
-      CompletableFuture<Void> unable_to_load_sofa_renderable = ModelRenderable.builder()
-              .setSource(this, Uri.parse("model2.sfb"))
-              .build()
-              .thenAccept(renderable -> sofaRenderable = renderable)
-              .exceptionally(
-                      throwable -> {
-                          Toast toast =
-                                  Toast.makeText(this, "Unable to load andy renderable", Toast.LENGTH_LONG);
-                          toast.setGravity(Gravity.CENTER, 0, 0);
-                          toast.show();
-                          return null;
-                      });
+    loadModels();
 
       arFragment.setOnTapArPlaneListener(
         (HitResult hitResult, Plane plane, MotionEvent motionEvent) -> {
@@ -200,6 +165,99 @@ public class HelloSceneformActivity extends AppCompatActivity {
           }
       });
       gallery.addView(sofa);
+      ImageView bookshelf = new ImageView(this);
+      bookshelf.setImageResource(R.drawable.bookshelf);
+      bookshelf.setContentDescription("bookshelf");
+      bookshelf.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              currentRenderable = bookshelfRenderable;
+              Toast.makeText(getApplicationContext(), "Bookshelf selected", Toast.LENGTH_LONG).show();
+          }
+      });
+      gallery.addView(bookshelf);
+      ImageView toilet = new ImageView(this);
+      toilet.setImageResource(R.drawable.toilet);
+      toilet.setContentDescription("toilet");
+      toilet.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              currentRenderable = toiletRenderable;
+              Toast.makeText(getApplicationContext(), "Toilet selected", Toast.LENGTH_LONG).show();
+          }
+      });
+      gallery.addView(toilet);
+  }
+
+
+
+  public void loadModels(){
+      Log.d("loadModels", "made it here");
+      // When you build a Renderable, Sceneform loads its resources in the background while returning
+      // a CompletableFuture. Call thenAccept(), handle(), or check isDone() before calling get().
+      CompletableFuture<Void> unable_to_load_lamp_renderable = ModelRenderable.builder()
+              .setSource(this, Uri.parse("LampPost.sfb"))
+              .build()
+              .thenAccept(renderable -> lampRenderable = renderable)
+              .exceptionally(
+                      throwable -> {
+                          Toast toast =
+                                  Toast.makeText(this, "Unable to load lamp renderable", Toast.LENGTH_LONG);
+                          toast.setGravity(Gravity.CENTER, 0, 0);
+                          toast.show();
+                          return null;
+                      });
+      CompletableFuture<Void> unable_to_load_chair_renderable = ModelRenderable.builder()
+              .setSource(this, Uri.parse("model.sfb"))
+              .build()
+              .thenAccept(renderable -> chairRenderable = renderable)
+              .exceptionally(
+                      throwable -> {
+                          Toast toast =
+                                  Toast.makeText(this, "Unable to load chair renderable", Toast.LENGTH_LONG);
+                          toast.setGravity(Gravity.CENTER, 0, 0);
+                          toast.show();
+                          return null;
+                      });
+      CompletableFuture<Void> unable_to_load_sofa_renderable = ModelRenderable.builder()
+              .setSource(this, Uri.parse("model2.sfb"))
+              .build()
+              .thenAccept(renderable -> sofaRenderable = renderable)
+              .exceptionally(
+                      throwable -> {
+                          Toast toast =
+                                  Toast.makeText(this, "Unable to load sofa renderable", Toast.LENGTH_LONG);
+                          toast.setGravity(Gravity.CENTER, 0, 0);
+                          toast.show();
+                          return null;
+                      });
+
+      CompletableFuture<Void> unable_to_load_bookshelf_renderable = ModelRenderable.builder()
+              .setSource(this, Uri.parse("AIO Shelf.sfb"))
+              .build()
+              .thenAccept(renderable -> bookshelfRenderable = renderable)
+              .exceptionally(
+                      throwable -> {
+                          Toast toast =
+                                  Toast.makeText(this, "Unable to load bookshelf renderable", Toast.LENGTH_LONG);
+                          toast.setGravity(Gravity.CENTER, 0, 0);
+                          toast.show();
+                          return null;
+                      });
+
+      CompletableFuture<Void> unable_to_load_toilet_renderable = ModelRenderable.builder()
+              .setSource(this, Uri.parse("Toilet.sfb"))
+              .build()
+              .thenAccept(renderable -> toiletRenderable = renderable)
+              .exceptionally(
+                      throwable -> {
+                          Toast toast =
+                                  Toast.makeText(this, "Unable to load toilet renderable", Toast.LENGTH_LONG);
+                          toast.setGravity(Gravity.CENTER, 0, 0);
+                          toast.show();
+                          return null;
+                      });
+      Log.d("loadModels", "done");
   }
 
 

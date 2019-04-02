@@ -78,10 +78,15 @@ sceneform.asset('sampledata/models/model2.obj',
         'sampledata/models/model2.sfa',
         'src/main/assets/model2')
 
-//repositories{
-//    maven{
-//        url 'https://maven.google.com'
-//    }
-//}
-//
-//
+
+
+sceneform.asset('sampledata/models/AIO Shelf.FBX',
+        'default',
+        'sampledata/models/AIO Shelf.sfa',
+        'src/main/assets/AIO Shelf')
+
+
+sceneform.asset('sampledata/models/Toilet.FBX',
+        'default',
+        'sampledata/models/Toilet.sfa',
+        'src/main/assets/Toilet')

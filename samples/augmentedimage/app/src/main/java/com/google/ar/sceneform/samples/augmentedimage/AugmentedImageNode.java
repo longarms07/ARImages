@@ -51,11 +51,11 @@ public class AugmentedImageNode extends AnchorNode {
     if (ulCorner == null) {
       ulCorner =
           ModelRenderable.builder()
-              .setSource(context, Uri.parse("models/frame_upper_left.sfb"))
+              .setSource(context, Uri.parse("CHAHIN_BOTTLE_OF_SODA.sfb"))
               .build();
       urCorner =
           ModelRenderable.builder()
-              .setSource(context, Uri.parse("models/frame_upper_right.sfb"))
+              .setSource(context, Uri.parse("Milkshake.sfb"))
               .build();
       llCorner =
           ModelRenderable.builder()

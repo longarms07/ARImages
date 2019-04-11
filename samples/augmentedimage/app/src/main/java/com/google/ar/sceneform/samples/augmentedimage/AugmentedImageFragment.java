@@ -45,9 +45,9 @@ public class AugmentedImageFragment extends ArFragment {
   // This is the name of the image in the sample database.  A copy of the image is in the assets
   // directory.  Opening this image on your computer is a good quick way to test the augmented image
   // matching.
-  private static final String DEFAULT_IMAGE_NAME = "default.jpg";
-  private static final String MILKSHAKE_IMAGE_NAME = "milkshake.jpg";
-  private static final String SODA_IMAGE_NAME = "soda.jpg";
+  public static final String DEFAULT_IMAGE_NAME = "default.jpg";
+  public static final String MILKSHAKE_IMAGE_NAME = "milkshake.jpg";
+  public static final String SODA_IMAGE_NAME = "soda.jpg";
 
   // This is a pre-created database containing the sample image.
   private static final String SAMPLE_IMAGE_DATABASE = "sample_database.imgdb";

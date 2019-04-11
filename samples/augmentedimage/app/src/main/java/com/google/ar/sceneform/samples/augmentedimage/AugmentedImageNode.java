@@ -22,6 +22,7 @@ import android.util.Log;
 import com.google.ar.core.AugmentedImage;
 import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.Node;
+import com.google.ar.sceneform.math.Quaternion;
 import com.google.ar.sceneform.math.Vector3;
 import com.google.ar.sceneform.rendering.ModelRenderable;
 import java.util.concurrent.CompletableFuture;
@@ -37,34 +38,24 @@ public class AugmentedImageNode extends AnchorNode {
 
   // The augmented image represented by this node.
   private AugmentedImage image;
-  
+
 
   // Models of the 4 corners.  We use completable futures here to simplify
   // the error handling and asynchronous loading.  The loading is started with the
   // first construction of an instance, and then used when the image is set.
-  private static CompletableFuture<ModelRenderable> ulCorner;
-  private static CompletableFuture<ModelRenderable> urCorner;
-  private static CompletableFuture<ModelRenderable> lrCorner;
-  private static CompletableFuture<ModelRenderable> llCorner;
+  private static CompletableFuture<ModelRenderable> arSoda;
+  private static CompletableFuture<ModelRenderable> arMilkshake;
 
   public AugmentedImageNode(Context context) {
     // Upon construction, start loading the models for the corners of the frame.
-    if (ulCorner == null) {
-      ulCorner =
+    if (arSoda == null) {
+      arSoda =
           ModelRenderable.builder()
               .setSource(context, Uri.parse("CHAHIN_BOTTLE_OF_SODA.sfb"))
               .build();
-      urCorner =
+      arMilkshake =
           ModelRenderable.builder()
               .setSource(context, Uri.parse("Milkshake.sfb"))
-              .build();
-      llCorner =
-          ModelRenderable.builder()
-              .setSource(context, Uri.parse("models/frame_lower_left.sfb"))
-              .build();
-      lrCorner =
-          ModelRenderable.builder()
-              .setSource(context, Uri.parse("models/frame_lower_right.sfb"))
               .build();
     }
   }
@@ -80,8 +71,8 @@ public class AugmentedImageNode extends AnchorNode {
     this.image = image;
 
     // If any of the models are not loaded, then recurse when all are loaded.
-    if (!ulCorner.isDone() || !urCorner.isDone() || !llCorner.isDone() || !lrCorner.isDone()) {
-      CompletableFuture.allOf(ulCorner, urCorner, llCorner, lrCorner)
+    if (!arSoda.isDone() || !arMilkshake.isDone()) {
+      CompletableFuture.allOf(arSoda, arMilkshake)
           .thenAccept((Void aVoid) -> setImage(image))
           .exceptionally(
               throwable -> {
@@ -97,33 +88,32 @@ public class AugmentedImageNode extends AnchorNode {
     Vector3 localPosition = new Vector3();
     Node cornerNode;
 
-    // Upper left corner.
-    localPosition.set(-0.5f * image.getExtentX(), 0.0f, -0.5f * image.getExtentZ());
-    cornerNode = new Node();
-    cornerNode.setParent(this);
-    cornerNode.setLocalPosition(localPosition);
-    cornerNode.setRenderable(ulCorner.getNow(null));
+    //localPosition.set(image.getExtentX(), 0.0f, image.getExtentZ());
 
-    // Upper right corner.
-    localPosition.set(0.5f * image.getExtentX(), 0.0f, -0.5f * image.getExtentZ());
-    cornerNode = new Node();
-    cornerNode.setParent(this);
-    cornerNode.setLocalPosition(localPosition);
-    cornerNode.setRenderable(urCorner.getNow(null));
+    // Soda
+    localPosition.set(-0.2f * image.getExtentX(), 0.0f, 0.2f * image.getExtentZ());
+    Log.d("Here", image.getName());
+    switch((String) image.getName()) {
 
-    // Lower right corner.
-    localPosition.set(0.5f * image.getExtentX(), 0.0f, 0.5f * image.getExtentZ());
-    cornerNode = new Node();
-    cornerNode.setParent(this);
-    cornerNode.setLocalPosition(localPosition);
-    cornerNode.setRenderable(lrCorner.getNow(null));
-
-    // Lower left corner.
-    localPosition.set(-0.5f * image.getExtentX(), 0.0f, 0.5f * image.getExtentZ());
-    cornerNode = new Node();
-    cornerNode.setParent(this);
-    cornerNode.setLocalPosition(localPosition);
-    cornerNode.setRenderable(llCorner.getNow(null));
+        case((String) AugmentedImageFragment.SODA_IMAGE_NAME):
+            Log.d("Here", image.getName());
+            cornerNode = new Node();
+            cornerNode.setParent(this);
+            cornerNode.setLocalRotation(Quaternion.axisAngle(new Vector3(1f, 0, 0), 270f));
+            cornerNode.setLocalPosition(localPosition);
+            cornerNode.setRenderable(arSoda.getNow(null));
+            break;
+        // Milkshake
+        //localPosition.set(0.5f * image.getExtentX(), 0.0f, -0.5f * image.getExtentZ());
+        case((String) AugmentedImageFragment.MILKSHAKE_IMAGE_NAME):
+            Log.d("Here", image.getName());
+            cornerNode = new Node();
+            cornerNode.setParent(this);
+            cornerNode.setLocalRotation(Quaternion.axisAngle(new Vector3(1f, 0, 0), 270f));
+            cornerNode.setLocalPosition(localPosition);
+            cornerNode.setRenderable(arMilkshake.getNow(null));
+        break;
+    }
   }
 
   public AugmentedImage getImage() {

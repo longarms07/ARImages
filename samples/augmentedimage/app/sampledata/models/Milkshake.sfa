@@ -167,7 +167,7 @@
     file: 'sampledata/models/Milkshake.obj',
     name: 'Milkshake',
     recenter: 'root',
-    scale: 0.0018833999999999999,
+    scale: 0.0008833999999999999,
   },
   version: '0.54:2',
 }

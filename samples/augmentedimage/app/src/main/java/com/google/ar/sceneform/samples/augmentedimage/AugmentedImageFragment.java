@@ -46,13 +46,15 @@ public class AugmentedImageFragment extends ArFragment {
   // directory.  Opening this image on your computer is a good quick way to test the augmented image
   // matching.
   private static final String DEFAULT_IMAGE_NAME = "default.jpg";
+  private static final String MILKSHAKE_IMAGE_NAME = "milkshake.jpg";
+  private static final String SODA_IMAGE_NAME = "soda.jpg";
 
   // This is a pre-created database containing the sample image.
   private static final String SAMPLE_IMAGE_DATABASE = "sample_database.imgdb";
 
   // Augmented image configuration and rendering.
   // Load a single image (true) or a pre-generated image database (false).
-  private static final boolean USE_SINGLE_IMAGE = false;
+  private static final boolean USE_SINGLE_IMAGE = true;
 
   // Do a runtime check for the OpenGL level available at runtime to avoid Sceneform crashing the
   // application.
@@ -119,13 +121,15 @@ public class AugmentedImageFragment extends ArFragment {
     // * shorter setup time
     // * doesn't require images to be packaged in apk.
     if (USE_SINGLE_IMAGE) {
-      Bitmap augmentedImageBitmap = loadAugmentedImageBitmap(assetManager);
+      Bitmap augmentedImageBitmap = loadAugmentedImageBitmap(assetManager, SODA_IMAGE_NAME);
       if (augmentedImageBitmap == null) {
         return false;
       }
 
       augmentedImageDatabase = new AugmentedImageDatabase(session);
-      augmentedImageDatabase.addImage(DEFAULT_IMAGE_NAME, augmentedImageBitmap);
+      augmentedImageDatabase.addImage(SODA_IMAGE_NAME, augmentedImageBitmap);
+      augmentedImageBitmap = loadAugmentedImageBitmap(assetManager, MILKSHAKE_IMAGE_NAME);
+      augmentedImageDatabase.addImage(MILKSHAKE_IMAGE_NAME, augmentedImageBitmap);
       // If the physical size of the image is known, you can instead use:
       //     augmentedImageDatabase.addImage("image_name", augmentedImageBitmap, widthInMeters);
       // This will improve the initial detection speed. ARCore will still actively estimate the
@@ -145,8 +149,8 @@ public class AugmentedImageFragment extends ArFragment {
     return true;
   }
 
-  private Bitmap loadAugmentedImageBitmap(AssetManager assetManager) {
-    try (InputStream is = assetManager.open(DEFAULT_IMAGE_NAME)) {
+  private Bitmap loadAugmentedImageBitmap(AssetManager assetManager, String imageName) {
+    try (InputStream is = assetManager.open(imageName)) {
       return BitmapFactory.decodeStream(is);
     } catch (IOException e) {
       Log.e(TAG, "IO exception loading augmented image bitmap.", e);

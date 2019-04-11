@@ -37,6 +37,7 @@ public class AugmentedImageNode extends AnchorNode {
 
   // The augmented image represented by this node.
   private AugmentedImage image;
+  
 
   // Models of the 4 corners.  We use completable futures here to simplify
   // the error handling and asynchronous loading.  The loading is started with the
